@@ -50,12 +50,12 @@ long_lived_tree = make_tree(0, max_depth)
 iterations = 2 ** max_depth
 for depth in range(min_depth, stretch_depth, 2):
 
-    check = 0
-    for i in range(1, iterations + 1):
-        check += check_tree(make_tree(i, depth)) + check_tree(make_tree(-i, depth))
-
+    check = sum(
+        check_tree(make_tree(i, depth)) + check_tree(make_tree(-i, depth))
+        for i in range(1, iterations + 1)
+    )
     print("%d trees of depth %d check:" % (iterations * 2, depth), check)
     iterations //= 4
 
 print("long lived tree of depth %d check:" % max_depth, check_tree(long_lived_tree))
-print("elapsed: " + str(time.clock() - start))
+print(f"elapsed: {str(time.clock() - start)}")
